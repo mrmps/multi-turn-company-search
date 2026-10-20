@@ -15,7 +15,7 @@ from typing import Any
 SCHEMA_VERSION = "company-research-dataset-v1"
 DEFAULT_DATASET_SLUG = "multi-constraint-company-research-v1"
 DEFAULT_DATASET_NAME = "Multi-Constraint Company Research — 45 Query Set"
-SOURCE_SYSTEM = "fiber_companies_name_v1"
+SOURCE_SYSTEM = "source_companies_name_v1"
 FAMILIES = {"investor", "accelerator", "funding", "other"}
 
 
@@ -136,7 +136,7 @@ def build_curated_artifact(
     *,
     dataset_slug: str = DEFAULT_DATASET_SLUG,
     dataset_name: str = DEFAULT_DATASET_NAME,
-    source_snapshot: str = "fiber_companies snapshot used by simulator bank-100",
+    source_snapshot: str = "source_companies snapshot used by simulator bank-100",
 ) -> dict[str, Any]:
     """Select and safely override bank rows using the hand-curated text file."""
     bank_items = _require_list(bank.get("items"), "bank.items")
@@ -229,7 +229,7 @@ def build_artifact(
     *,
     dataset_slug: str = DEFAULT_DATASET_SLUG,
     dataset_name: str = DEFAULT_DATASET_NAME,
-    source_snapshot: str = "fiber_companies snapshot used by simulator bank-100",
+    source_snapshot: str = "source_companies snapshot used by simulator bank-100",
 ) -> dict[str, Any]:
     items = _require_list(bank.get("items"), "bank.items")
     cases: list[dict[str, Any]] = []
@@ -285,12 +285,12 @@ def build_artifact(
             "region": "Global",
             "notes": (
                 "Deterministic 100-query multi-constraint company discovery set. "
-                "Initial gold is generated from the frozen Fiber company census and "
+                "Initial gold is generated from the frozen Source companies census and "
                 "is expected to receive a later hand-labelled gold release."
             ),
         },
         "source": {
-            "type": "clickhouse_fiber_companies",
+            "type": "source_companies",
             "snapshot": source_snapshot,
             "generator": "simulator/dataset_simulations/web_search/final_bank.py",
             "method": bank.get("method"),
