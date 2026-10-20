@@ -30,9 +30,11 @@ discovery.
 
 This board is the alternative. Every question combines three or four constraints
 such as headquarters, investor backing, accelerator participation, founding
-period, or funding history, and the model-only baseline is 0: we ran it with no
-search tool and it scored nothing. A correct set has to be assembled from several
+period, or funding history. A correct set has to be assembled from several
 searches.
+
+Model-only baseline: with no search tool at all, GPT-5.6-sol scores F1 20.1% on
+the private set (precision 30.0%, recall 18.7%).
 
 Two boards are reported separately, because search-result quality and
 page-retrieval quality are different products:

@@ -200,13 +200,12 @@ def build_curated_artifact(
         {
             "selection": "main-bench/final_queries.txt",
             "bank": "simulator/bank-100.json",
-            "gold_status": "provisional_pending_hand_labelling",
+            "gold_status": "hand-labelled",
         }
     )
     payload["dataset"]["notes"] = (
         "Curated 45-query multi-constraint company discovery set. Initial gold is a "
-        "provisional selection from the frozen Fiber census and will be superseded by "
-        "a hand-labelled release after vendor runs."
+        "hand-labelled selection from the frozen census."
     )
     payload["content_sha256"] = content_sha256(payload)
     validate_artifact(payload)
