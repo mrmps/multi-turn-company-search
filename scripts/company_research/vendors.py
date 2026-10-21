@@ -71,11 +71,11 @@ CONTEXT_USD_PER_CREDIT = 0.0022
 
 VENDORS: dict[str, VendorSpec] = {
     # Developer top-up: $2.20 / 1,000 credits, checked 2026-10-20.
-    # https://www.context.dev/pricing; live Highlights search used 2 credits, scrape 1.
+    # https://www.context.dev/pricing; one credit / 10 search results or standard Markdown scrape.
     "context": VendorSpec(
         "context", "context", "Context.dev", "context", "POST /v1/web/search",
-        ("CONTEXT_API_KEY",), 2 * CONTEXT_USD_PER_CREDIT, True, "GET /v1/web/scrape/markdown", "context_markdown",
-        {"highlightsOptions": {"enabled": True, "maxCharacters": 4000}}, fetch_unit_cost_usd=CONTEXT_USD_PER_CREDIT,
+        ("CONTEXT_API_KEY",), CONTEXT_USD_PER_CREDIT, True, "GET /v1/web/scrape/markdown", "context_markdown",
+        {"highlightsOptions": {"enabled": False}}, fetch_unit_cost_usd=CONTEXT_USD_PER_CREDIT,
     ),
     "brave": VendorSpec(
         "brave", "brave-search", "Brave Search", "brave", "GET /res/v1/web/search",
@@ -360,10 +360,7 @@ def _parse_hits(vendor_key: str, payload: Any, max_results: int) -> list[dict[st
         return _dedupe([_hit(h["url"], h["title"], h["snippet"]) for h in nimble.search_hits(payload, max_results)], max_results)
     if vendor_key == "context":
         for item in payload.get("results") or []:
-            highlights = item.get("highlights") or {}
-            parts = highlights.get("highlights") if highlights.get("code") == "SUCCESS" else []
-            snippet = "\n".join(part for part in parts or [] if isinstance(part, str))
-            hits.append(_hit(item.get("url"), item.get("title"), snippet or item.get("description")))
+            hits.append(_hit(item.get("url"), item.get("title"), item.get("description")))
     elif vendor_key.startswith("parallel_"):
         for item in payload.get("results") or []:
             excerpts = item.get("excerpts") or []

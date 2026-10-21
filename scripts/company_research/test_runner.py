@@ -205,8 +205,8 @@ class RunnerTest(unittest.TestCase):
 
     def test_every_vendor_response_shape_produces_ranked_hits(self) -> None:
         fixtures = {
-            "context": {"results": [{"url": "https://a.test", "title": "A",
-                                      "highlights": {"code": "SUCCESS", "highlights": ["one"]}}]},
+            "context": {"results": [{"url": "https://a.test", "title": "A", "description": "one",
+                                      "highlights": {"code": "SUCCESS", "highlights": ["ignored"]}}]},
             "brave": {"web": {"results": [{"url": "https://a.test", "title": "A", "description": "one"}]}},
             "exa_deep": {"results": [{"url": "https://a.test", "title": "A", "highlights": ["one"]}]},
             "exa_instant": {"results": [{"url": "https://a.test", "title": "A", "highlights": ["one"]}]},
@@ -232,6 +232,8 @@ class RunnerTest(unittest.TestCase):
         for vendor, payload in fixtures.items():
             with self.subTest(vendor=vendor):
                 self.assertEqual(_parse_hits(vendor, payload, 10)[0]["url"], "https://a.test")
+                if vendor == "context":
+                    self.assertEqual(_parse_hits(vendor, payload, 10)[0]["snippet"], "one")
 
     def test_public_board_search_request_contracts(self) -> None:
         fixtures = {
