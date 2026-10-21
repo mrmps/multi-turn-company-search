@@ -205,8 +205,8 @@ class RunnerTest(unittest.TestCase):
 
     def test_every_vendor_response_shape_produces_ranked_hits(self) -> None:
         fixtures = {
-            "context": {"results": [{"url": "https://a.test", "title": "A", "description": "one",
-                                      "highlights": {"code": "SUCCESS", "highlights": ["ignored"]}}]},
+            "context": {"results": [{"url": "https://a.test", "title": "A", "description": "fallback",
+                                      "highlights": {"code": "SUCCESS", "highlights": ["one"]}}]},
             "brave": {"web": {"results": [{"url": "https://a.test", "title": "A", "description": "one"}]}},
             "exa_deep": {"results": [{"url": "https://a.test", "title": "A", "highlights": ["one"]}]},
             "exa_instant": {"results": [{"url": "https://a.test", "title": "A", "highlights": ["one"]}]},
